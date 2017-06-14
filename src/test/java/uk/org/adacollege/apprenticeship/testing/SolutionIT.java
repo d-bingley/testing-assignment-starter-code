@@ -109,8 +109,12 @@ public class SolutionIT {
     }
 
     private static void assertElementTextEquals(By selector, String expectedText) {
-        // TODO: implement this method
-        // - use assertTitleEquals() as an example pattern to follow
+        Boolean result = wait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                return driver.findElement().equals(expectedText);
+            }
+        });
+        // - assertTitleEquals() as an example pattern to follow
         // - but instead of return driver.getTitle().equals(expectedTitle)
         //   call driver.findElement() with the selector provided
         //   and then get the text from that element
@@ -151,13 +155,14 @@ public class SolutionIT {
     public void notLoggedIn_checkMenus() {
         assertElementPresent(logInMenuId);
         assertElementNotPresent(logOutMenuId);
-        // TODO: complete for all other menus
+        assertElementNotPresent(aboutMenuId);
+        assertElementNotPresent(myWhipbirdsMenuId);
     }
 
     // Step 2
     @Test
     public void notLoggedIn_checkCurrentPage() {
-        // TODO
+        assertUrlEquals("http://whipbird.mattcalthrop.com/#!/login");
     }
 
     // Step 3

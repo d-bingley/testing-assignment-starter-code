@@ -163,12 +163,19 @@ public class SolutionIT {
     @Test
     public void notLoggedIn_checkCurrentPage() {
         assertUrlEquals("http://whipbird.mattcalthrop.com/#!/login");
+        assertTitleEquals("whipbird: log in");
+        assertElementTextEquals(By.tagName("h4"), "Log in");
+        assertElementTextEquals(By.id("footer-left"),"");
+
     }
 
     // Step 3
     @Test
     public void notLoggedIn_clickAboutMenu() {
-        // TODO
+        //URL should be set correctly.
+        //Page title should be set correctly.
+        //Page heading should be set correctly.
+
     }
 
     // Step 4

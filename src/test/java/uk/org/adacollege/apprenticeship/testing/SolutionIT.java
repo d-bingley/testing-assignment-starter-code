@@ -155,6 +155,7 @@ public class SolutionIT {
     public void notLoggedIn_checkMenus() {
         assertElementPresent(logInMenuId);
         assertElementNotPresent(logOutMenuId);
+        assertElementPresent(aboutMenuId);
         assertElementNotPresent(aboutMenuId);
         assertElementNotPresent(myWhipbirdsMenuId);
     }
@@ -172,6 +173,8 @@ public class SolutionIT {
     // Step 3
     @Test
     public void notLoggedIn_clickAboutMenu() {
+        assertUrlEquals();
+
         //URL should be set correctly.
         //Page title should be set correctly.
         //Page heading should be set correctly.

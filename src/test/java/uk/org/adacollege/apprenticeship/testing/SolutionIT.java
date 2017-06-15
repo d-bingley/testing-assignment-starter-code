@@ -111,14 +111,16 @@ public class SolutionIT {
     private static void assertElementTextEquals(By selector, String expectedText) {
         Boolean result = wait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver driver) {
-                return driver.findElement().equals(expectedText);
+                return driver.findElement(selector).getText().equals(expectedText);
             }
         });
-        // - assertTitleEquals() as an example pattern to follow
-        // - but instead of return driver.getTitle().equals(expectedTitle)
-        //   call driver.findElement() with the selector provided
-        //   and then get the text from that element
-        //   and then check that it equals the expected text
+        assertTrue(result);
+
+    }
+
+    private static void clickElement(String expectedElement) {
+        wait.until(presenceOfElementLocated(By.id(expectedElement)));
+        driver.findElement(By.id(expectedElement)).click();
     }
 
     // ========= SCAFFOLDING =========
@@ -156,9 +158,9 @@ public class SolutionIT {
         assertElementPresent(logInMenuId);
         assertElementNotPresent(logOutMenuId);
         assertElementPresent(aboutMenuId);
-        assertElementNotPresent(aboutMenuId);
         assertElementNotPresent(myWhipbirdsMenuId);
     }
+
 
     // Step 2
     @Test
@@ -166,34 +168,54 @@ public class SolutionIT {
         assertUrlEquals("http://whipbird.mattcalthrop.com/#!/login");
         assertTitleEquals("whipbird: log in");
         assertElementTextEquals(By.tagName("h4"), "Log in");
-        assertElementTextEquals(By.id("footer-left"),"");
+        assertElementTextEquals(By.id("footer-right"), "");
 
     }
 
     // Step 3
     @Test
     public void notLoggedIn_clickAboutMenu() {
-        assertUrlEquals();
+        clickElement(aboutMenuId);
+        assertUrlEquals("http://whipbird.mattcalthrop.com/#!/about");
+        assertTitleEquals("whipbird: about");
+        assertElementTextEquals(By.tagName("h4"), "About this app");
 
-        //URL should be set correctly.
-        //Page title should be set correctly.
-        //Page heading should be set correctly.
 
     }
+
 
     // Step 4
     @Test
     public void notLoggedIn_logInWithIncorrectCredentials() {
-        // TODO
-    }
+        assertElementPresent(logInMenuId);
+        assertElementNotPresent(logOutMenuId);
+        assertElementPresent(aboutMenuId);
+        assertElementNotPresent(myWhipbirdsMenuId);
+        assertUrlEquals("http://whipbird.mattcalthrop.com/#!/login");
+        assertTitleEquals("whipbird: log in");
+        assertElementTextEquals(By.id("popup-message"), "");
 
+        // Page footer (right) should be empty.
+
+
+    }
+}
     // --------- WHEN LOGGED IN ---------
 
-    // Step 5
+/*    // Step 5
     @Test
     public void loggedIn_checkMenus() {
         logIn(true);
-        // TODO
+        assertElementPresent (myWhipbirdsMenuId);
+        assertElementPresent(logOutMenuId);
+        assertElementPresent(logInMenuId);
+        assertElementPresent(aboutMenuId);
+        assertUrlEquals("http://whipbird.mattcalthrop.com/#!/my-whipbirds");
+        assertTitleEquals("whipbird: my whipbirds");
+
+        //All required menus should be visible
+        //Other menus should not be visible.
+
     }
 
     // Step 6
@@ -219,4 +241,4 @@ public class SolutionIT {
     public void loggedIn_addNewWhipbirdThenDeleteIt() {
         // TODO
     }
-}
+}*/

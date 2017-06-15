@@ -27,7 +27,7 @@ public class SolutionIT {
     private static String validPassword = "whipit";
     private static String invalidPassword = validPassword + "-invalid";
     private static String logInButtonId = "login-button";
-    private static String logOutButtonId = "logout-button";
+    private static String logOutButtonId = "log-out-button";
     private static String popupMessageId = "popup-message";
 
     // ========= UTILITY METHODS =========
@@ -129,7 +129,7 @@ public class SolutionIT {
     public static void beforeAll() {
         startUrl = "http://whipbird.mattcalthrop.com/";
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, 10);
     }
 
     @AfterClass
@@ -199,33 +199,33 @@ public class SolutionIT {
 
 
     }
-}
+
+
     // --------- WHEN LOGGED IN ---------
 
-/*    // Step 5
+   // Step 5
     @Test
     public void loggedIn_checkMenus() {
         logIn(true);
-        assertElementPresent (myWhipbirdsMenuId);
-        assertElementPresent(logOutMenuId);
-        assertElementPresent(logInMenuId);
+
+        assertElementPresent(myWhipbirdsMenuId);
         assertElementPresent(aboutMenuId);
-        assertUrlEquals("http://whipbird.mattcalthrop.com/#!/my-whipbirds");
-        assertTitleEquals("whipbird: my whipbirds");
-
-        //All required menus should be visible
-        //Other menus should not be visible.
-
+        assertElementPresent(logOutMenuId);
+        assertElementNotPresent(logInMenuId);
     }
 
+}
     // Step 6
-    @Test
+   /* @Test
     public void loggedIn_checkCurrentPage() {
-        // TODO
+
+
     }
+}
+
 
     // Step 7
-    @Test
+    /*@Test
     public void loggedIn_clickLogOutMenu() {
         // TODO
     }

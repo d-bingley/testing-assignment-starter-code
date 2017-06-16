@@ -29,8 +29,9 @@ public class SolutionIT {
     private static String logInButtonId = "login-button";
     private static String logOutButtonId = "log-out-button";
     private static String popupMessageId = "popup-message";
-    private static String nameTagId ="name";
-    private static String ageTagId ="age";
+    private static String nameTagId = "name";
+    private static String ageTagId = "age";
+    private static int numofwhipbirds;
     // ========= UTILITY METHODS =========
 
     /**
@@ -43,6 +44,38 @@ public class SolutionIT {
                 return driver.findElement(locator);
             }
         };
+    }
+
+    private static void countWhipbird() {
+        numofwhipbirds = driver.findElements(By.className("delete-whipbird-button")).size();
+    }
+
+    private static void deleteallWhipbird() {
+        countWhipbird();
+        while (numofwhipbirds > 0) {
+            deleteAWhipbird();
+            countWhipbird();
+        }
+
+
+    }
+
+    private static void deleteAWhipbird() {
+        wait.until(presenceOfElementLocated(By.id("delete-whipbird-button-0")));
+        driver.findElement(By.id("delete-whipbird-button-0")).click();
+
+    }
+
+    private static void addaWhipbird() {
+        wait.until(presenceOfElementLocated(By.id("name")));
+        driver.findElement(By.id("name")).sendKeys("john");
+
+        wait.until(presenceOfElementLocated(By.id("age")));
+        driver.findElement(By.id("age")).sendKeys("10");
+
+        wait.until(presenceOfElementLocated(By.id("add-new-whipbird-button")));
+        driver.findElement(By.id("add-new-whipbird-button")).click();
+
     }
 
     private static void logIn(Boolean withValidCredentials) {
@@ -204,7 +237,7 @@ public class SolutionIT {
 
     // --------- WHEN LOGGED IN ---------
 
-   // Step 5
+    // Step 5
     @Test
     public void loggedIn_checkMenus() {
         logIn(true);
@@ -222,55 +255,57 @@ public class SolutionIT {
         logIn(true);
 
         assertUrlEquals("http://whipbird.mattcalthrop.com/#!/my-whipbirds");
-        assertTitleEquals("whipbirds: my whipbirds");
+        assertTitleEquals("whipbird: my whipbirds");
         assertElementTextEquals(By.tagName("h4"), "Current whipbirds for Daniella Bingley");
-        assertElementTextEquals(By.id("footer-right"),"Daniella Bingley");
-                //URL should be set correctly.
-                //Page title should be set correctly.
-                //Page heading should be set correctly.
-                //Page footer (right) should contain user’s full name.
+        assertElementTextEquals(By.id("footer-right"), "Daniella Bingley");
+        //URL should be set correctly.
+        //Page title should be set correctly.
+        //Page heading should be set correctly.
+        //Page footer (right) should contain user’s full name.
 
     }
 
-
-
-    // Step 7
     @Test
     public void loggedIn_clickLogOutMenu() {
         logIn(true);
-        wait.until(presenceOfElementLocated(By.id(logInMenuId)));
-        driver.findElement(By.id(logInMenuId)).click());
+        wait.until(presenceOfElementLocated(By.id(logOutMenuId)));
+        driver.findElement(By.id(logOutMenuId)).click();
         assertUrlEquals("http://whipbird.mattcalthrop.com/#!/logout");
         assertTitleEquals("whipbird: log out");
-        assertElementTextEquals(By.tagName("h4"),"Log out");
-        assertElementTextEquals(By.id("footer-right"),"Daniella Bingley");
-   // URL should be set correctly.
+        assertElementTextEquals(By.tagName("h4"), "Log out");
+        assertElementTextEquals(By.id("footer-right"), "Daniella Bingley");
+        // URL should be set correctly.
 //Page title should be set correctly.
 //Page heading should be set correctly.
 
     }
 
+
     // Step 8
     @Test
     public void loggedIn_addNewWhipbird() {
         logIn(true);
-        wait.until(presenceOfElementLocated(By.id(nameTagId)));
-        driver.findElement(By.id(nameTagId)).sendKeys("john");
-        wait.until(presenceOfElementLocated(By.id(ageTagId)));
-        driver.findElement(By.id(ageTagId)).sendKeys("10");
-        wait.until(presenceOfElementLocated(By.id("add-new-whipbird-button")));
-        clickElement("add-new-whipbird-button");
-        wait.until((presenceOfElementLocated(By.id("delete-whipbird-button-0"))));
-        assertElementTextEquals(By.id(popupMessageId),"Whipbird added: john");
-
+        deleteallWhipbird();
+        addaWhipbird();
+        assertElementTextEquals(By.id(popupMessageId), "Whipbird added: john");
+        assertElementTextEquals(By.id("whipbird-name-0"), "john");
+        assertElementTextEquals(By.id("whipbird-age-0"), "10");
         // Specific feedback message should be displayed.
         //The name of the whipbird just created should exist on the page.
 
     }
+}
 
     // Step 9
-    @Test
+    /*@Test
     public void loggedIn_addNewWhipbirdThenDeleteIt() {
-        // TODO
-    }
-}
+        logIn(true);
+        deleteallWhipbird();
+        addaWhipbird();
+        assertElementTextEquals(By.id(popupMessageId), "Whipbird added: john");
+        assertElementTextEquals(By.id("whipbird-name-0"), "john");
+        assertElementTextEquals(By.id("whipbird-age-0"), "10");
+        deleteAWhipbird();
+        assertElementTextEquals(By.id(popupMessageId), "Whipbird deleted: john");
+        assertElementNotPresent("whipbird-name-0");
+*/

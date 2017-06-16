@@ -294,10 +294,10 @@ public class SolutionIT {
         //The name of the whipbird just created should exist on the page.
 
     }
-}
+
 
     // Step 9
-    /*@Test
+    @Test
     public void loggedIn_addNewWhipbirdThenDeleteIt() {
         logIn(true);
         deleteallWhipbird();
@@ -308,4 +308,5 @@ public class SolutionIT {
         deleteAWhipbird();
         assertElementTextEquals(By.id(popupMessageId), "Whipbird deleted: john");
         assertElementNotPresent("whipbird-name-0");
-*/
+    }
+    }
